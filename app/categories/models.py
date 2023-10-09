@@ -12,7 +12,7 @@ class Category(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(length=150))
     image_id: Mapped[int]
-    subcategories = relationship('Subcategory', back_populates='category')
+    # subcategories = relationship('Subcategory', back_populates='category')
 
     def __str__(self):
         return f'Категория:id - {self.id}, название - {self.name}'

@@ -1,7 +1,7 @@
-# from app.dao.base import BaseDAO
+from app.dao.base import BaseDAO
 
-# from .models import Category
+from .models import Category
 
 
-# class CategoryDAO(BaseDAO):
-#     model = Category
+class CategoryDAO(BaseDAO):
+    model = Category
