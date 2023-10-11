@@ -2,7 +2,7 @@ from datetime import date
 from typing import Optional
 
 from fastapi_users.db import SQLAlchemyBaseUserTable
-from sqlalchemy import Boolean, Date, Integer, String
+from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
