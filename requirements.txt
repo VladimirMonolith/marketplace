@@ -6,3 +6,7 @@ asyncpg==0.28.0
 python-json-logger==2.0.7
 fastapi-users[sqlalchemy]
 sentry-sdk[fastapi]
+fastapi-cache2[redis]
+celery==5.3.4
+flower==2.0.1
+sqladmin==0.15.1

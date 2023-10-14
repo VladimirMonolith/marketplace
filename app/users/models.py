@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import List, Optional
 
 from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import String
@@ -26,9 +26,9 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     is_active: Mapped[bool] = mapped_column(default=True)
     is_superuser: Mapped[bool] = mapped_column(default=False)
     is_verified: Mapped[bool] = mapped_column(default=False)
-    # purchases = relationship(
-    #     'Purchase', back_populates='buyer', cascade='all, delete-orphan'
-    # )
+    purchases: Mapped[List['Purchase']] = relationship(
+        back_populates='buyer', cascade='all, delete-orphan'
+    )
 
     def __str__(self):
         return f'Пользователь:id - {self.id}, username - {self.username}'

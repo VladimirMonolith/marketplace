@@ -4,9 +4,7 @@ from fastapi import APIRouter, Depends
 from fastapi_versioning import version
 
 from app.exceptions import (
-    CannotCreateData,
-    CannotDeleteDataFromDatabase,
-    CannotUpdateData,
+    DatabaseErrorException,
     NotFoundException,
     ObjectAlreadyExistsException
 )
@@ -35,7 +33,9 @@ async def create_category(
     new_category = await CategoryDAO.add_object(**data.model_dump())
 
     if not new_category:
-        raise CannotCreateData
+        raise DatabaseErrorException(
+            detail='Не удалось добавить запись в базу данных.'
+        )
     return new_category
 
 
@@ -74,7 +74,7 @@ async def update_category(
     )
 
     if not category:
-        raise CannotUpdateData
+        raise DatabaseErrorException(detail='Не удалось обновить данные.')
     return category
 
 
@@ -87,5 +87,7 @@ async def delete_category(
     result = await CategoryDAO.delete_object(id=category_id)
 
     if not result:
-        raise CannotDeleteDataFromDatabase
+        raise DatabaseErrorException(
+            detail='Не удалось удалить запись из базы данных.'
+        )
     return result

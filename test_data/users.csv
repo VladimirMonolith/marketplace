@@ -1,0 +1,2 @@
+username;email;first_name;last_name;hashed_password;registrated
+testuser;test@test.com;Test;Testoff;$2b$12$ib8N/MddMjSxNs4UOF69c.KuO4CyglQHcNATYpHcKJJn5rbltYNFG;2023-05-01
