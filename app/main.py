@@ -8,7 +8,7 @@ from fastapi_versioning import VersionedFastAPI
 from redis import asyncio as aioredis
 from sqladmin import Admin
 
-# from app.admin.auth import authentication_backend
+from app.admin.auth import authentication_backend
 from app.admin.models import (
     CategoryAdmin,
     GoodsAdmin,
@@ -83,8 +83,8 @@ app = VersionedFastAPI(
 )
 
 admin = Admin(
-    # app=app, engine=engine, authentication_backend=authentication_backend
-    app=app, engine=engine
+    app=app, engine=engine, authentication_backend=authentication_backend
+    # app=app, engine=engine
 )
 
 admin.add_view(UserAdmin)
