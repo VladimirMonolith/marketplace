@@ -84,7 +84,6 @@ app = VersionedFastAPI(
 
 admin = Admin(
     app=app, engine=engine, authentication_backend=authentication_backend
-    # app=app, engine=engine
 )
 
 admin.add_view(UserAdmin)
