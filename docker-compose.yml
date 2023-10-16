@@ -1,0 +1,85 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    container_name: db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env-docker
+    ports:
+      - 5433:5432
+
+  redis:
+    image: redis:7
+    container_name: redis
+    depends_on:
+      - db
+    env_file:
+      - .env-docker
+    ports:
+      - 6379:6379
+
+  app:
+    build:
+      context: .
+    container_name: app
+    restart: always
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env-docker
+    command: ['/marketplace/docker/app.sh']
+    # command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
+    ports:
+      - 7777:8000
+
+  celery:
+    build:
+      context: .
+    container_name: celery
+    command: ['/marketplace/docker/celery.sh', 'celery']
+    # command: sh -c "celery --app=app.tasks.celery:celery worker -l INFO"
+    depends_on:
+      - redis
+    env_file:
+      - .env-docker
+
+  flower:
+    build:
+      context: .
+    container_name: flower
+    command: ['/marketplace/docker/celery.sh', 'flower']
+    # command: sh -c "celery --app=app.tasks.celery:celery flower"
+    depends_on:
+      - redis
+      - celery
+    env_file:
+      - .env-docker
+    ports:
+      - 5555:5555
+
+  # prometheus:
+  #   image: prom/prometheus:v2.43.0
+  #   container_name: prometheus
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - prometheus_data:/prometheus
+  #   restart: unless-stopped
+  #   ports:
+  #     - 9090:9090
+
+  # grafana:
+  #   image: grafana/grafana:9.4.7
+  #   container_name: grafana
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #   restart: unless-stopped
+  #   ports:
+  #     - 3000:3000
+      
+volumes:
+  postgres_data:
+  # grafana_data:
+  # prometheus_data:
