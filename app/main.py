@@ -74,7 +74,7 @@ app.include_router(categories_router)
 app.include_router(subcategories_router)
 app.include_router(goods_router)
 app.include_router(purchases_router)
-# app.include_router(prometheus_router)
+app.include_router(prometheus_router)
 
 app = VersionedFastAPI(
     app,
