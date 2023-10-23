@@ -11,3 +11,4 @@ celery==5.3.4
 flower==2.0.1
 sqladmin==0.15.1
 gunicorn==21.2.0
+prometheus-fastapi-instrumentator==6.1.0

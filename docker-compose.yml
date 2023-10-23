@@ -1,14 +1,14 @@
 version: '3.8'
 services:
   db:
-    image: postgres:15
+    image: postgres:16
     container_name: db
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env-docker
     ports:
-      - 5433:5432
+      - 5435:5435
 
   redis:
     image: redis:7
@@ -23,7 +23,7 @@ services:
   app:
     build:
       context: .
-    container_name: app
+    container_name: app 
     restart: always
     depends_on:
       - db
@@ -60,26 +60,26 @@ services:
     ports:
       - 5555:5555
 
-  # prometheus:
-  #   image: prom/prometheus:v2.43.0
-  #   container_name: prometheus
-  #   volumes:
-  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
-  #     - prometheus_data:/prometheus
-  #   restart: unless-stopped
-  #   ports:
-  #     - 9090:9090
+  prometheus:
+    image: prom/prometheus:v2.43.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    restart: unless-stopped
+    ports:
+      - 9090:9090
 
-  # grafana:
-  #   image: grafana/grafana:9.4.7
-  #   container_name: grafana
-  #   volumes:
-  #     - grafana_data:/var/lib/grafana
-  #   restart: unless-stopped
-  #   ports:
-  #     - 3000:3000
+  grafana:
+    image: grafana/grafana:9.4.7
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
+    ports:
+      - 5000:3000
       
 volumes:
   postgres_data:
-  # grafana_data:
-  # prometheus_data:
+  grafana_data:
+  prometheus_data:

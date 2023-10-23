@@ -5,6 +5,7 @@ from fastapi import FastAPI, Request
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_versioning import VersionedFastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 from redis import asyncio as aioredis
 from sqladmin import Admin
 
@@ -22,6 +23,7 @@ from app.database.connection import engine
 from app.goods.router import router as goods_router
 from app.import_data.router import router as import_data_router
 from app.logger import logger
+from app.prometheus.router import router as prometheus_router
 from app.purchases.router import router as purchases_router
 from app.subcategories.router import router as subcategories_router
 from app.users.config import auth_backend
@@ -74,7 +76,7 @@ app.include_router(categories_router)
 app.include_router(subcategories_router)
 app.include_router(goods_router)
 app.include_router(purchases_router)
-app.include_router(prometheus_router) 
+app.include_router(prometheus_router)
 
 app = VersionedFastAPI(
     app,
@@ -118,3 +120,9 @@ async def add_process_time_header(request: Request, call_next):
         extra={'process_time': round(process_time, 4)}
     )
     return response
+
+instrumentator = Instrumentator(
+    should_group_status_codes=False,
+    excluded_handlers=['.*admin.*', '/metrics'],
+)
+instrumentator.instrument(app).expose(app)
