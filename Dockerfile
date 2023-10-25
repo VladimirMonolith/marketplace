@@ -11,7 +11,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # предоставляет доступ для запуска скрипта, если это необходимо
-RUN chmod a+x /marketplace/docker/*.sh 
+RUN chmod a+x /marketplace/docker/*.sh  
 
 # команды выведены в баш-скрипты, чтобы они не прогонялись каждый раз при сборке образа
 # RUN alembic upgrade head
