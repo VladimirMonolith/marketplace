@@ -2,7 +2,7 @@ FROM python:3.9
 
 RUN mkdir /marketplace     
 
-WORKDIR /marketplace 
+WORKDIR /marketplace    
 
 COPY requirements.txt . 
 
