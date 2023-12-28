@@ -12,3 +12,4 @@ flower==2.0.1
 sqladmin==0.15.1
 gunicorn==21.2.0
 prometheus-fastapi-instrumentator==6.1.0
+setuptools==69.0.3 
